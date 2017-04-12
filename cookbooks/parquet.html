@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Creating a custom re:dash dataset · GitBook</title>
+        <title>Working with Parquet Data on ATMO Clusters · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="realtime_analysis_plugin.html" />
+    <link rel="next" href="create_a_dataset.html" />
     
     
-    <link rel="prev" href="parquet.html" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -766,7 +766,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="parquet.html">
+        <li class="chapter active" data-level="1.5.1" data-path="parquet.html">
             
                 <a href="parquet.html">
             
@@ -779,7 +779,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5.2" data-path="create_a_dataset.html">
+        <li class="chapter " data-level="1.5.2" data-path="create_a_dataset.html">
             
                 <a href="create_a_dataset.html">
             
@@ -905,7 +905,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Creating a custom re:dash dataset</a>
+        <a href=".." >Working with Parquet Data on ATMO Clusters</a>
     </h1>
 </div>
 
@@ -920,20 +920,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="creating-your-own-dataset-to-query-in-redash">Creating Your Own Dataset to Query in re:dash</h1>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a spark notebook that does the transformations you need, either on raw data (using Dataset API) or on parquet data</p>
-</li>
-<li>
-<p>Output the results of that to an s3 location, usually <code>telemetry-parquet/user/$YOUR_DATASET/v$VERSION_NUMBER/submission_date=$YESTERDAY/</code>. This would partition by submission_date, meaning each day this runs and is outputted to a new location in s3. Do NOT put the submission_date in the parquet file as well! A column name cannot also be the name of a partition.</p>
-</li>
-<li>
-<p>Open a bug, put :robotblake as the assignee, and make the title &quot;Add dataset to Presto&quot;. Be sure to include the location of the dataset, and what you want the name of the dataset to be.</p>
-</li>
-</ol>
-</div>
+                                
                                 
                                 </section>
                             
@@ -960,12 +947,12 @@
 
             
                 
-                <a href="parquet.html" class="navigation navigation-prev " aria-label="Previous page: Working with Parquet Data on ATMO Clusters">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Cookbooks">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="realtime_analysis_plugin.html" class="navigation navigation-next " aria-label="Next page: Creating a Real-time Analysis Plugin">
+                <a href="create_a_dataset.html" class="navigation navigation-next " aria-label="Next page: Creating a custom re:dash dataset">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -976,7 +963,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Creating a custom re:dash dataset","level":"1.5.2","depth":2,"next":{"title":"Creating a Real-time Analysis Plugin","level":"1.5.3","depth":2,"path":"cookbooks/realtime_analysis_plugin.md","ref":"cookbooks/realtime_analysis_plugin.md","articles":[]},"previous":{"title":"Working with Parquet Data on ATMO Clusters","level":"1.5.1","depth":2,"path":"cookbooks/parquet.md","ref":"cookbooks/parquet.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/create_a_dataset.adoc","mtime":"2017-03-29T15:38:34.000Z","type":"asciidoc"},"gitbook":{"version":"3.2.2","time":"2017-04-12T14:09:37.932Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Working with Parquet Data on ATMO Clusters","level":"1.5.1","depth":2,"next":{"title":"Creating a custom re:dash dataset","level":"1.5.2","depth":2,"path":"cookbooks/create_a_dataset.adoc","ref":"cookbooks/create_a_dataset.adoc","articles":[]},"previous":{"title":"Cookbooks","level":"1.5","depth":1,"path":"cookbooks/README.adoc","ref":"cookbooks/README.adoc","articles":[{"title":"Working with Parquet Data on ATMO Clusters","level":"1.5.1","depth":2,"path":"cookbooks/parquet.md","ref":"cookbooks/parquet.md","articles":[]},{"title":"Creating a custom re:dash dataset","level":"1.5.2","depth":2,"path":"cookbooks/create_a_dataset.adoc","ref":"cookbooks/create_a_dataset.adoc","articles":[]},{"title":"Creating a Real-time Analysis Plugin","level":"1.5.3","depth":2,"path":"cookbooks/realtime_analysis_plugin.md","ref":"cookbooks/realtime_analysis_plugin.md","articles":[]},{"title":"Longitudinal Examples","level":"1.5.4","depth":2,"path":"cookbooks/longitudinal.md","ref":"cookbooks/longitudinal.md","articles":[]}]},"dir":"neutral"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/parquet.md","mtime":"2017-04-12T14:07:18.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-12T14:09:37.932Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

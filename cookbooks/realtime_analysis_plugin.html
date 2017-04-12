@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Creating a custom re:dash dataset · GitBook</title>
+        <title>Creating a Real-time Analysis Plugin · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="realtime_analysis_plugin.html" />
+    <link rel="next" href="longitudinal.html" />
     
     
-    <link rel="prev" href="parquet.html" />
+    <link rel="prev" href="create_a_dataset.html" />
     
 
     </head>
@@ -779,7 +779,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5.2" data-path="create_a_dataset.html">
+        <li class="chapter " data-level="1.5.2" data-path="create_a_dataset.html">
             
                 <a href="create_a_dataset.html">
             
@@ -792,7 +792,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.3" data-path="realtime_analysis_plugin.html">
+        <li class="chapter active" data-level="1.5.3" data-path="realtime_analysis_plugin.html">
             
                 <a href="realtime_analysis_plugin.html">
             
@@ -905,7 +905,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Creating a custom re:dash dataset</a>
+        <a href=".." >Creating a Real-time Analysis Plugin</a>
     </h1>
 </div>
 
@@ -920,20 +920,184 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="creating-your-own-dataset-to-query-in-redash">Creating Your Own Dataset to Query in re:dash</h1>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Create a spark notebook that does the transformations you need, either on raw data (using Dataset API) or on parquet data</p>
+                                <h1 id="creating-a-real-time-analysis-plugin">Creating a Real-time Analysis Plugin</h1>
+<h2 id="getting-started">Getting Started</h2>
+<p>Creating an analysis plugin consists of three steps:</p>
+<ol>
+<li><p>Writing a message matcher</p>
+<p>The message matcher allows one to select specific data from the data stream.</p>
 </li>
-<li>
-<p>Output the results of that to an s3 location, usually <code>telemetry-parquet/user/$YOUR_DATASET/v$VERSION_NUMBER/submission_date=$YESTERDAY/</code>. This would partition by submission_date, meaning each day this runs and is outputted to a new location in s3. Do NOT put the submission_date in the parquet file as well! A column name cannot also be the name of a partition.</p>
+<li><p>Writing the analysis code/business logic</p>
+<p>The analysis code allows one to aggregrate, detect anomalies, apply machine
+learning algorithms etc.</p>
 </li>
-<li>
-<p>Open a bug, put :robotblake as the assignee, and make the title &quot;Add dataset to Presto&quot;. Be sure to include the location of the dataset, and what you want the name of the dataset to be.</p>
+<li><p>Writing the output code</p>
+<p>The output code allows one to structure the analysis results in an easy to
+consume format.</p>
 </li>
 </ol>
-</div>
+<h3 id="step-by-step-setup">Step by Step Setup</h3>
+<ol>
+<li><p>Go to the CEP site: <a href="https://pipeline-cep.prod.mozaws.net/" target="_blank">https://pipeline-cep.prod.mozaws.net/</a></p>
+</li>
+<li><p>Login/Register using your Google @mozilla.com account</p>
+</li>
+<li><p>Click on the <code>Plugin Deployment</code> tab</p>
+</li>
+<li><p>Create a message matcher</p>
+<ol>
+<li><p>Edit the <code>message_matcher</code> variable in the <code>Heka Analysis Plugin Configuration</code>
+text area. For this example we are selecting all telemetry messages. The
+full syntax of the message matcher can be found here: 
+<a href="http://mozilla-services.github.io/lua_sandbox/util/message_matcher.html" target="_blank">http://mozilla-services.github.io/lua_sandbox/util/message_matcher.html</a></p>
+<pre><code class="lang-lua">message_matcher = <span class="hljs-string">&quot;Type == &apos;telemetry&apos;&quot;</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>Test the message matcher</p>
+<ol>
+<li><p>Click the <code>Run Matcher</code> button.</p>
+<p>Your results or error message will appear to the right.  You can browse
+the returned messages to examine their structure and the data they
+contain; this is very helpful when developing the analysis code but is
+also useful for data exploration even when not developing a plugin.</p>
+</li>
+</ol>
+</li>
+<li><p>Delete the code in the <code>Heka Analysis Plugin</code> text area</p>
+</li>
+<li><p>Create the Analysis Code (process_message)</p>
+<p>The <code>process_message</code> function is invoked every time a message is matched and
+should return 0 for success and -1 for failure. Full interface documentation:
+<a href="http://mozilla-services.github.io/lua_sandbox/heka/analysis.html" target="_blank">http://mozilla-services.github.io/lua_sandbox/heka/analysis.html</a></p>
+<ol>
+<li><p>Here is the minimum  implementation; type it into the 
+<code>Heka Analysis Plugin</code> text area:</p>
+<pre><code class="lang-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> <span class="hljs-comment">-- success</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>Create the Output Code (timer_event)</p>
+<p>The <code>timer_event</code> function is invoked every <code>ticker_interval</code> seconds.</p>
+<ol>
+<li><p>Here is the minimum inplementation; type it into the <code>Heka Analysis Plugin</code>
+text area:</p>
+<pre><code class="lang-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>Test the Plugin</p>
+<ol>
+<li><p>Click the <code>Test Plugin</code> button.</p>
+<p>Your results or error message will appear to the right. If an error is
+output, correct it and test again.</p>
+</li>
+</ol>
+</li>
+</ol>
+<ol>
+<li><p>Extend the Code to Perform a Simple Message Count Analysis/Output</p>
+<ol>
+<li><p>Replace the code in the <code>Heka Analysis Plugin</code> text area with the
+following:</p>
+<pre><code class="lang-lua"><span class="hljs-keyword">local</span> cnt = <span class="hljs-number">0</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
+    cnt = cnt + <span class="hljs-number">1</span>                       <span class="hljs-comment">-- count the number of messages that matched</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
+    inject_payload(<span class="hljs-string">&quot;txt&quot;</span>, <span class="hljs-string">&quot;types&quot;</span>, cnt) <span class="hljs-comment">-- output the count</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>Test the Plugin</p>
+<ol>
+<li><p>Click the <code>Test Plugin</code> button.</p>
+<p>Your results or error message will appear to the right. If an error is
+output, correct it and test again.</p>
+</li>
+</ol>
+</li>
+<li><p>Extend the Code to Perform a More Complex Count by Type Analysis/Output</p>
+<ol>
+<li><p>Replace the code in the <code>Heka Analysis Plugin</code> text area with the
+following:</p>
+<pre><code class="lang-lua">types = {}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
+    <span class="hljs-comment">-- read the docType from the message, if it doesn&apos;t exist set it to &quot;unknown&quot;</span>
+    <span class="hljs-keyword">local</span> dt = read_message(<span class="hljs-string">&quot;Fields[docType]&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;unknown&quot;</span>
+
+    <span class="hljs-comment">-- look up the docType in the types hash</span>
+    <span class="hljs-keyword">local</span> cnt = types[dt]
+    <span class="hljs-keyword">if</span> cnt <span class="hljs-keyword">then</span>
+        types[dt] = cnt + <span class="hljs-number">1</span>   <span class="hljs-comment">-- if the type cnt exists, increment it by one</span>
+    <span class="hljs-keyword">else</span>
+        types[dt] = <span class="hljs-number">1</span>         <span class="hljs-comment">-- if the type cnt didn&apos;t exist, initialize it to one</span>
+    <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
+    add_to_payload(<span class="hljs-string">&quot;docType = Count\n&quot;</span>)   <span class="hljs-comment">-- add a header to the output</span>
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">pairs</span>(types) <span class="hljs-keyword">do</span>           <span class="hljs-comment">-- iterate over all the key/values (docTypes/cnt in the hash)</span>
+        add_to_payload(k, <span class="hljs-string">&quot; = &quot;</span>, v, <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">-- add a line to the output</span>
+    <span class="hljs-keyword">end</span>
+    inject_payload(<span class="hljs-string">&quot;txt&quot;</span>, <span class="hljs-string">&quot;types&quot;</span>)        <span class="hljs-comment">-- finalize all the data written to the payload</span>
+<span class="hljs-keyword">end</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p>Test the Plugin</p>
+<ol>
+<li><p>Click the <code>Test Plugin</code> button.</p>
+<p>Your results or error message will appear to the right. If an error is
+output, correct it and test again.</p>
+</li>
+</ol>
+</li>
+<li><p>Deploy the plugin</p>
+<ol>
+<li>Click the <code>Deploy Plugin</code> button and dismiss the successfully deployed 
+dialog.</li>
+</ol>
+</li>
+<li><p>View the running plugin</p>
+<ol>
+<li>Click the <code>Plugins</code> tab and look for the plugin that was just deployed
+<code>{user}.example</code></li>
+<li>Right click on the plugin to active the context menu allowing you to view
+the source or stop the plugin.</li>
+</ol>
+</li>
+<li><p>View the plugin output</p>
+<ol>
+<li>Click on the <code>Dashboards</code> tab</li>
+<li>Click on the <code>Raw Dashboard Output</code> link</li>
+<li>Click on analysis.{user}.example.types.txt link</li>
+</ol>
+</li>
+</ol>
+<h3 id="where-to-go-from-here">Where to go from here</h3>
+<ul>
+<li>Lua Reference: <a href="http://www.lua.org/manual/5.1/manual.html" target="_blank">http://www.lua.org/manual/5.1/manual.html</a></li>
+<li>Available Lua Modules: <a href="https://mozilla-services.github.io/lua_sandbox_extensions/" target="_blank">https://mozilla-services.github.io/lua_sandbox_extensions/</a></li>
+<li>Support<ul>
+<li>IRC: <a href="irc://irc.mozilla.org/hindsight" target="_blank">#hindsight on irc.mozilla.org</a></li>
+<li>Mailing list: <a href="https://mail.mozilla.org/listinfo/hindsight" target="_blank">https://mail.mozilla.org/listinfo/hindsight</a></li>
+</ul>
+</li>
+</ul>
+
                                 
                                 </section>
                             
@@ -960,12 +1124,12 @@
 
             
                 
-                <a href="parquet.html" class="navigation navigation-prev " aria-label="Previous page: Working with Parquet Data on ATMO Clusters">
+                <a href="create_a_dataset.html" class="navigation navigation-prev " aria-label="Previous page: Creating a custom re:dash dataset">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="realtime_analysis_plugin.html" class="navigation navigation-next " aria-label="Next page: Creating a Real-time Analysis Plugin">
+                <a href="longitudinal.html" class="navigation navigation-next " aria-label="Next page: Longitudinal Examples">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -976,7 +1140,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Creating a custom re:dash dataset","level":"1.5.2","depth":2,"next":{"title":"Creating a Real-time Analysis Plugin","level":"1.5.3","depth":2,"path":"cookbooks/realtime_analysis_plugin.md","ref":"cookbooks/realtime_analysis_plugin.md","articles":[]},"previous":{"title":"Working with Parquet Data on ATMO Clusters","level":"1.5.1","depth":2,"path":"cookbooks/parquet.md","ref":"cookbooks/parquet.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/create_a_dataset.adoc","mtime":"2017-03-29T15:38:34.000Z","type":"asciidoc"},"gitbook":{"version":"3.2.2","time":"2017-04-12T14:09:37.932Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Creating a Real-time Analysis Plugin","level":"1.5.3","depth":2,"next":{"title":"Longitudinal Examples","level":"1.5.4","depth":2,"path":"cookbooks/longitudinal.md","ref":"cookbooks/longitudinal.md","articles":[]},"previous":{"title":"Creating a custom re:dash dataset","level":"1.5.2","depth":2,"path":"cookbooks/create_a_dataset.adoc","ref":"cookbooks/create_a_dataset.adoc","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/realtime_analysis_plugin.md","mtime":"2017-04-11T19:26:19.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-12T14:09:37.932Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
