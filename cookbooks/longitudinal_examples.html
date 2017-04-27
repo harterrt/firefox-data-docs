@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Creating a Real-time Analysis Plugin · GitBook</title>
+        <title>Longitudinal Examples · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../tools/distribution_viewer.html" />
     
-    
-    <link rel="prev" href="../tools/advanced_analysis_with_atmo.html" />
+    <link rel="prev" href="realtime_analysis_plugin.html" />
     
 
     </head>
@@ -549,7 +547,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4.1.3" data-path="realtime_analysis_plugin.html">
+        <li class="chapter " data-level="1.4.1.3" data-path="realtime_analysis_plugin.html">
             
                 <a href="realtime_analysis_plugin.html">
             
@@ -664,7 +662,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5.3" data-path="realtime_analysis_plugin.html">
+        <li class="chapter " data-level="1.5.3" data-path="realtime_analysis_plugin.html">
             
                 <a href="realtime_analysis_plugin.html">
             
@@ -677,7 +675,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5.4" data-path="longitudinal_examples.html">
+        <li class="chapter active" data-level="1.5.4" data-path="longitudinal_examples.html">
             
                 <a href="longitudinal_examples.html">
             
@@ -777,7 +775,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Creating a Real-time Analysis Plugin</a>
+        <a href=".." >Longitudinal Examples</a>
     </h1>
 </div>
 
@@ -792,182 +790,168 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="creating-a-real-time-analysis-plugin">Creating a Real-time Analysis Plugin</h1>
-<h2 id="getting-started">Getting Started</h2>
-<p>Creating an analysis plugin consists of three steps:</p>
-<ol>
-<li><p>Writing a message matcher</p>
-<p>The message matcher allows one to select specific data from the data stream.</p>
-</li>
-<li><p>Writing the analysis code/business logic</p>
-<p>The analysis code allows one to aggregrate, detect anomalies, apply machine
-learning algorithms etc.</p>
-</li>
-<li><p>Writing the output code</p>
-<p>The output code allows one to structure the analysis results in an easy to
-consume format.</p>
-</li>
-</ol>
-<h3 id="step-by-step-setup">Step by Step Setup</h3>
-<ol>
-<li><p>Go to the CEP site: <a href="https://pipeline-cep.prod.mozaws.net/" target="_blank">https://pipeline-cep.prod.mozaws.net/</a></p>
-</li>
-<li><p>Login/Register using your Google @mozilla.com account</p>
-</li>
-<li><p>Click on the <code>Plugin Deployment</code> tab</p>
-</li>
-<li><p>Create a message matcher</p>
-<ol>
-<li><p>Edit the <code>message_matcher</code> variable in the <code>Heka Analysis Plugin Configuration</code>
-text area. For this example we are selecting all telemetry messages. The
-full syntax of the message matcher can be found here: 
-<a href="http://mozilla-services.github.io/lua_sandbox/util/message_matcher.html" target="_blank">http://mozilla-services.github.io/lua_sandbox/util/message_matcher.html</a></p>
-<pre><code class="lang-lua">message_matcher = <span class="hljs-string">&quot;Type == &apos;telemetry&apos;&quot;</span>
-</code></pre>
-</li>
-</ol>
-</li>
-<li><p>Test the message matcher</p>
-<ol>
-<li><p>Click the <code>Run Matcher</code> button.</p>
-<p>Your results or error message will appear to the right.  You can browse
-the returned messages to examine their structure and the data they
-contain; this is very helpful when developing the analysis code but is
-also useful for data exploration even when not developing a plugin.</p>
-</li>
-</ol>
-</li>
-<li><p>Delete the code in the <code>Heka Analysis Plugin</code> text area</p>
-</li>
-<li><p>Create the Analysis Code (process_message)</p>
-<p>The <code>process_message</code> function is invoked every time a message is matched and
-should return 0 for success and -1 for failure. Full interface documentation:
-<a href="http://mozilla-services.github.io/lua_sandbox/heka/analysis.html" target="_blank">http://mozilla-services.github.io/lua_sandbox/heka/analysis.html</a></p>
-<ol>
-<li><p>Here is the minimum  implementation; type it into the 
-<code>Heka Analysis Plugin</code> text area:</p>
-<pre><code class="lang-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> <span class="hljs-comment">-- success</span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</li>
-</ol>
-</li>
-<li><p>Create the Output Code (timer_event)</p>
-<p>The <code>timer_event</code> function is invoked every <code>ticker_interval</code> seconds.</p>
-<ol>
-<li><p>Here is the minimum inplementation; type it into the <code>Heka Analysis Plugin</code>
-text area:</p>
-<pre><code class="lang-lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</li>
-</ol>
-</li>
-<li><p>Test the Plugin</p>
-<ol>
-<li><p>Click the <code>Test Plugin</code> button.</p>
-<p>Your results or error message will appear to the right. If an error is
-output, correct it and test again.</p>
-</li>
-</ol>
-</li>
-</ol>
-<ol>
-<li><p>Extend the Code to Perform a Simple Message Count Analysis/Output</p>
-<ol>
-<li><p>Replace the code in the <code>Heka Analysis Plugin</code> text area with the
-following:</p>
-<pre><code class="lang-lua"><span class="hljs-keyword">local</span> cnt = <span class="hljs-number">0</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
-    cnt = cnt + <span class="hljs-number">1</span>                       <span class="hljs-comment">-- count the number of messages that matched</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-<span class="hljs-keyword">end</span>
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
-    inject_payload(<span class="hljs-string">&quot;txt&quot;</span>, <span class="hljs-string">&quot;types&quot;</span>, cnt) <span class="hljs-comment">-- output the count</span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</li>
-</ol>
-</li>
-<li><p>Test the Plugin</p>
-<ol>
-<li><p>Click the <code>Test Plugin</code> button.</p>
-<p>Your results or error message will appear to the right. If an error is
-output, correct it and test again.</p>
-</li>
-</ol>
-</li>
-<li><p>Extend the Code to Perform a More Complex Count by Type Analysis/Output</p>
-<ol>
-<li><p>Replace the code in the <code>Heka Analysis Plugin</code> text area with the
-following:</p>
-<pre><code class="lang-lua">types = {}
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process_message</span><span class="hljs-params">()</span></span>
-    <span class="hljs-comment">-- read the docType from the message, if it doesn&apos;t exist set it to &quot;unknown&quot;</span>
-    <span class="hljs-keyword">local</span> dt = read_message(<span class="hljs-string">&quot;Fields[docType]&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;unknown&quot;</span>
-
-    <span class="hljs-comment">-- look up the docType in the types hash</span>
-    <span class="hljs-keyword">local</span> cnt = types[dt]
-    <span class="hljs-keyword">if</span> cnt <span class="hljs-keyword">then</span>
-        types[dt] = cnt + <span class="hljs-number">1</span>   <span class="hljs-comment">-- if the type cnt exists, increment it by one</span>
-    <span class="hljs-keyword">else</span>
-        types[dt] = <span class="hljs-number">1</span>         <span class="hljs-comment">-- if the type cnt didn&apos;t exist, initialize it to one</span>
-    <span class="hljs-keyword">end</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-<span class="hljs-keyword">end</span>
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">timer_event</span><span class="hljs-params">()</span></span>
-    add_to_payload(<span class="hljs-string">&quot;docType = Count\n&quot;</span>)   <span class="hljs-comment">-- add a header to the output</span>
-    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">pairs</span>(types) <span class="hljs-keyword">do</span>           <span class="hljs-comment">-- iterate over all the key/values (docTypes/cnt in the hash)</span>
-        add_to_payload(k, <span class="hljs-string">&quot; = &quot;</span>, v, <span class="hljs-string">&quot;\n&quot;</span>) <span class="hljs-comment">-- add a line to the output</span>
-    <span class="hljs-keyword">end</span>
-    inject_payload(<span class="hljs-string">&quot;txt&quot;</span>, <span class="hljs-string">&quot;types&quot;</span>)        <span class="hljs-comment">-- finalize all the data written to the payload</span>
-<span class="hljs-keyword">end</span>
-</code></pre>
-</li>
-</ol>
-</li>
-<li><p>Test the Plugin</p>
-<ol>
-<li><p>Click the <code>Test Plugin</code> button.</p>
-<p>Your results or error message will appear to the right. If an error is
-output, correct it and test again.</p>
-</li>
-</ol>
-</li>
-<li><p>Deploy the plugin</p>
-<ol>
-<li>Click the <code>Deploy Plugin</code> button and dismiss the successfully deployed 
-dialog.</li>
-</ol>
-</li>
-<li><p>View the running plugin</p>
-<ol>
-<li>Click the <code>Plugins</code> tab and look for the plugin that was just deployed
-<code>{user}.example</code></li>
-<li>Right click on the plugin to active the context menu allowing you to view
-the source or stop the plugin.</li>
-</ol>
-</li>
-<li><p>View the plugin output</p>
-<ol>
-<li>Click on the <code>Dashboards</code> tab</li>
-<li>Click on the <code>Raw Dashboard Output</code> link</li>
-<li>Click on analysis.{user}.example.types.txt link</li>
-</ol>
-</li>
-</ol>
-<h3 id="where-to-go-from-here">Where to go from here</h3>
+                                <h3 id="introduction">Introduction</h3>
+<p>The longitudinal dataset is a summary of main pings. If you&apos;re not sure which
+dataset to use for your query, this is probably what you want. It differs from
+the main_summary table in two important ways:</p>
 <ul>
-<li>Lua Reference: <a href="http://www.lua.org/manual/5.1/manual.html" target="_blank">http://www.lua.org/manual/5.1/manual.html</a></li>
-<li>Available Lua Modules: <a href="https://mozilla-services.github.io/lua_sandbox_extensions/" target="_blank">https://mozilla-services.github.io/lua_sandbox_extensions/</a></li>
-<li>Support<ul>
-<li>IRC: <a href="irc://irc.mozilla.org/hindsight" target="_blank">#hindsight on irc.mozilla.org</a></li>
-<li>Mailing list: <a href="https://mail.mozilla.org/listinfo/hindsight" target="_blank">https://mail.mozilla.org/listinfo/hindsight</a></li>
+<li>The longitudinal dataset groups all data for a client-id in the same row.
+This makes it easy to report profile level metrics. Without this deduping,
+metrics would be weighted by the number of submissions instead of by clients.</li>
+<li>The dataset uses a 1% of all recent profiles, which will reduce query
+computation time and save resources. The sample of clients will be stable over
+time.</li>
 </ul>
-</li>
+<p>Accordingly, one should prefer using the Longitudinal dataset except in the
+rare case where a 100% sample is strictly necessary.</p>
+<p>As discussed in the <a href="https://github.com/mozilla/emr-bootstrap-spark/blob/master/examples/Longitudinal%20Dataset%20Tutorial.ipynb" target="_blank">Longitudinal Data Set Example Notebook</a>:</p>
+<pre><code>The longitudinal dataset is logically organized as a table where rows
+represent profiles and columns the various metrics (e.g. startup time). Each
+field of the table contains a list of values, one per Telemetry submission
+received for that profile. [...]
+
+The current version of the longitudinal dataset has been build with all
+main pings received from 1% of profiles across all channels with [...] up to
+180 days of data.
+</code></pre><h3 id="table-structure">Table structure</h3>
+<p>To get an overview of the longitudinal data table:</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">DESCRIBE</span> longitudinal
+</code></pre>
+<p>That table has a row for each client, with columns for the different
+parts of the ping. There are a lot of fields here, so I recommend
+downloading the results as a CSV if you want to search through these
+fields. Unfortunately, there&apos;s no way to filter the output of DESCRIBE
+in Presto.</p>
+<p>Because this table combines all rows for a given client id, most columns
+contain either Arrays or Maps (described below). A few properties are
+directly available to query on:</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">count</span>
+<span class="hljs-keyword">FROM</span> longitudinal
+<span class="hljs-keyword">WHERE</span> os = <span class="hljs-string">&apos;Linux&apos;</span>
+</code></pre>
+<h4 id="arrays">Arrays</h4>
+<p>Most properties are arrays, which contain one entry for each submission
+from a given client (newest first). Note that indexing starts at 1:</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> reason[<span class="hljs-number">1</span>] <span class="hljs-keyword">AS</span> newest_reason
+<span class="hljs-keyword">FROM</span> longitudinal
+<span class="hljs-keyword">WHERE</span> os = <span class="hljs-string">&apos;Linux&apos;</span>
+</code></pre>
+<p>To expand arrays and maps and work on the data row-wise we can use
+<code>UNNEST(array)</code>.</p>
+<pre><code class="lang-sql">WITH lengths AS
+  (<span class="hljs-keyword">SELECT</span> os, <span class="hljs-keyword">greatest</span>(<span class="hljs-number">-1</span>, <span class="hljs-keyword">least</span>(<span class="hljs-number">31</span>, sl / (<span class="hljs-number">24</span>*<span class="hljs-number">60</span>*<span class="hljs-number">60</span>))) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">days</span>
+   <span class="hljs-keyword">FROM</span> longitudinal
+   <span class="hljs-keyword">CROSS</span> <span class="hljs-keyword">JOIN</span> UNNEST(session_length, reason) <span class="hljs-keyword">AS</span> t(sl, r)
+   <span class="hljs-keyword">WHERE</span> r = <span class="hljs-string">&apos;shutdown&apos;</span> <span class="hljs-keyword">OR</span> r = <span class="hljs-string">&apos;aborted-session&apos;</span>)
+<span class="hljs-keyword">SELECT</span> os, <span class="hljs-keyword">days</span>, <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">count</span>
+<span class="hljs-keyword">FROM</span> lengths
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">days</span>, os <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">days</span> <span class="hljs-keyword">ASC</span>
+</code></pre>
+<p>However, it may be better to use a sample from the main_summary table
+instead.</p>
+<p>Links:</p>
+<ul>
+<li><a href="https://prestodb.io/docs/current/functions/array.html" target="_blank">Documentation on array
+functions</a></li>
+<li><a href="https://prestodb.io/docs/current/sql/select.html#unnest" target="_blank"><code>UNNEST</code>
+documentation</a></li>
+</ul>
+<h4 id="maps">Maps</h4>
+<p>Some fields like <code>active_addons</code> or <code>user_prefs</code> are handled as maps, on
+which you can use the <code>[]</code> operator and special functions:</p>
+<pre><code class="lang-sql">WITH adp AS
+  (<span class="hljs-keyword">SELECT</span> active_addons[<span class="hljs-number">1</span>][<span class="hljs-string">&apos;{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}&apos;</span>]
+            <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">AS</span> has_adblockplus
+   <span class="hljs-keyword">FROM</span> longitudinal)
+<span class="hljs-keyword">SELECT</span> has_adblockplus, <span class="hljs-keyword">count</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">count</span>
+<span class="hljs-keyword">FROM</span> adp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-number">2</span> <span class="hljs-keyword">DESC</span>
+</code></pre>
+<p>Links:</p>
+<ul>
+<li><a href="https://prestodb.io/docs/current/functions/map.html" target="_blank">Documentation on map
+functions</a></li>
+</ul>
+<h3 id="sampling">Sampling</h3>
+<p>While composing queries, it can be helpful to work on small samples to
+reduce query runtimes:</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> longitudinal <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">1000</span> ...
+</code></pre>
+<p>There&apos;s no need to use other sampling methods, such as TABLESAMPLE, on
+the longitudinal set. Rows are randomly ordered, so a LIMIT sample is
+expected to be random.</p>
+<h3 id="example-queries">Example Queries</h3>
+<h4 id="blocklist-urls-extensionsblocklisturl">Blocklist URLs (extensions.blocklist.url)</h4>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> bl, <span class="hljs-keyword">COUNT</span>(bl)
+<span class="hljs-keyword">FROM</span>
+  (<span class="hljs-keyword">SELECT</span> element_at(<span class="hljs-keyword">settings</span>, <span class="hljs-number">1</span>).user_prefs[<span class="hljs-string">&apos;extensions.blocklist.url&apos;</span>] <span class="hljs-keyword">AS</span> bl
+   <span class="hljs-keyword">FROM</span> longitudinal)
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> bl
+</code></pre>
+<h4 id="blocklist-enableddisabled-extensionsblocklistenabled-count">Blocklist enabled/disabled (extensions.blocklist.enabled) count:</h4>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> bl, <span class="hljs-keyword">COUNT</span>(bl)
+<span class="hljs-keyword">FROM</span>
+  (<span class="hljs-keyword">SELECT</span> element_at(<span class="hljs-keyword">settings</span>, <span class="hljs-number">1</span>).blocklist_enabled <span class="hljs-keyword">AS</span> bl
+   <span class="hljs-keyword">FROM</span> longitudinal)
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> bl
+</code></pre>
+<h4 id="parsing-most-recent-submissiondate">Parsing most recent submission_date</h4>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> DATE_PARSE(submission_date[<span class="hljs-number">1</span>], <span class="hljs-string">&apos;%Y-%m-%dT00:00:00.000Z&apos;</span>) <span class="hljs-keyword">as</span> parsed_submission_date
+<span class="hljs-keyword">FROM</span> longitudinal
+</code></pre>
+<h4 id="limiting-to-most-recent-ping-in-the-last-7-days">Limiting to most recent ping in the last 7 days</h4>
+<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> longitudinal
+<span class="hljs-keyword">WHERE</span> DATE_DIFF(<span class="hljs-string">&apos;day&apos;</span>, DATE_PARSE(submission_date[<span class="hljs-number">1</span>], <span class="hljs-string">&apos;%Y-%m-%dT00:00:00.000Z&apos;</span>), <span class="hljs-keyword">current_date</span>) &lt; <span class="hljs-number">7</span>
+</code></pre>
+<h4 id="scalar-measurement-how-many-users-with-more-than-100-tabs">Scalar measurement (how many users with more than 100 tabs)</h4>
+<pre><code class="lang-sql">WITH samples AS
+ (<span class="hljs-keyword">SELECT</span>
+   client_id,
+   normalized_channel <span class="hljs-keyword">as</span> channel,
+   mctc.<span class="hljs-keyword">value</span> <span class="hljs-keyword">AS</span> max_concurrent_tabs
+  <span class="hljs-keyword">FROM</span> longitudinal
+  <span class="hljs-keyword">CROSS</span> <span class="hljs-keyword">JOIN</span> UNNEST(scalar_parent_browser_engagement_max_concurrent_tab_count) <span class="hljs-keyword">as</span> t (mctc)
+  <span class="hljs-keyword">WHERE</span>
+   scalar_parent_browser_engagement_max_concurrent_tab_count <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">and</span>
+   mctc.<span class="hljs-keyword">value</span> <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span> <span class="hljs-keyword">and</span>
+   normalized_channel = <span class="hljs-string">&apos;nightly&apos;</span>)
+<span class="hljs-keyword">SELECT</span> approx_distinct(client_id) <span class="hljs-keyword">FROM</span> samples <span class="hljs-keyword">WHERE</span> max_concurrent_tabs &gt; <span class="hljs-number">100</span>
+</code></pre>
+<h3 id="using-views">Using Views</h3>
+<p>If you find yourself copy/pasting SQL between different queries,
+consider using a Presto VIEW to allow for code reuse. Views create
+logical tables which you can reuse in other queries. For example, <a href="https://sql.telemetry.mozilla.org/queries/776/source" target="_blank">this
+view</a> defines some
+important filters and derived variables which are then used in <a href="https://sql.telemetry.mozilla.org/queries/777/source#1311" target="_blank">this
+downstream
+query</a>.</p>
+<p>You can define a view by prefixing your query with</p>
+<pre><code class="lang-sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">REPLACE</span> <span class="hljs-keyword">VIEW</span> view_name <span class="hljs-keyword">AS</span> ...
+</code></pre>
+<p>Be careful not to overwrite an existing view! Using a unique name is
+important.</p>
+<p>Find more information
+<a href="https://prestodb.io/docs/current/sql/create-view.html" target="_blank">here</a>.</p>
+<h3 id="working-offline">Working offline</h3>
+<p>It&apos;s often useful to keep a local sample of the l10l data when
+prototyping an analysis. The data is stored in
+s3://telemetry-parquet/longitudinal/. Once you have AWS credentials you
+can copy a shard of the parquet dataset to a local directory using <code>aws
+cp [filename] .</code></p>
+<p>To request AWS credentials, see <a href="https://mana.mozilla.org/wiki/display/SVCOPS/Requesting+A+Dev+IAM+account+from+Cloud+Operations" target="_blank">this
+page</a>.
+To initiate your AWS config, try <code>aws configure</code></p>
+<h3 id="faq">FAQ</h3>
+<h4 id="im-getting-an-error--cannot-be-resolved">I&apos;m getting an error, &quot;... cannot be resolved&quot;</h4>
+<p>For some reason, re:dash has trouble parsing SQL strings with double
+quotes. Try using single quotes instead.</p>
+<h3 id="other-resources">Other Resources</h3>
+<ul>
+<li><a href="https://prestodb.io/docs/current/sql.html" target="_blank">Presto Docs</a></li>
+<li><a href="https://docs.treasuredata.com/articles/presto-query-faq" target="_blank">Helpful FAQ covering
+perf/distribution</a></li>
+<li><a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/Longitudinal.scala#L194" target="_blank">Longitudinal schema
+definition</a></li>
+<li><a href="https://wiki.mozilla.org/Custom_dashboards_with_re:dash" target="_blank">Custom_dashboards_with_re:dash</a></li>
 </ul>
 
                                 
@@ -996,14 +980,10 @@ the source or stop the plugin.</li>
 
             
                 
-                <a href="../tools/advanced_analysis_with_atmo.html" class="navigation navigation-prev " aria-label="Previous page: Advanced analysis with ATMO">
+                <a href="realtime_analysis_plugin.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Creating a Real-time Analysis Plugin">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="../tools/distribution_viewer.html" class="navigation navigation-next " aria-label="Next page: Distribution Viewer">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -1012,7 +992,7 @@ the source or stop the plugin.</li>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Creating a Real-time Analysis Plugin","level":"1.4.1.3","depth":3,"next":{"title":"Distribution Viewer","level":"1.4.1.4","depth":3,"path":"tools/distribution_viewer.md","ref":"tools/distribution_viewer.md","articles":[]},"previous":{"title":"Advanced analysis with ATMO","level":"1.4.1.2","depth":3,"path":"tools/advanced_analysis_with_atmo.md","ref":"tools/advanced_analysis_with_atmo.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/realtime_analysis_plugin.md","mtime":"2017-04-11T19:26:19.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-27T14:54:38.087Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Longitudinal Examples","level":"1.5.4","depth":2,"next":{"title":"About this Documentation","level":"2.1","depth":1,"ref":"","articles":[{"title":"Structure","level":"2.1.1","depth":2,"path":"meta/structure.md","ref":"meta/structure.md","articles":[]},{"title":"Contributing","level":"2.1.2","depth":2,"path":"meta/contributing.md","ref":"meta/contributing.md","articles":[]}]},"previous":{"title":"Creating a Real-time Analysis Plugin","level":"1.5.3","depth":2,"path":"cookbooks/realtime_analysis_plugin.md","ref":"cookbooks/realtime_analysis_plugin.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/longitudinal_examples.md","mtime":"2017-04-27T12:26:26.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-04-27T14:54:38.087Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
