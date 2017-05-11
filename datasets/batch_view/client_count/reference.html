@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Crash Aggregate · GitBook</title>
+        <title>Client Count · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../events/reference.html" />
+    <link rel="next" href="../../../tools/experiments.html" />
     
     
-    <link rel="prev" href="../crash_summary/reference.html" />
+    <link rel="prev" href="../addons/reference.html" />
     
 
     </head>
@@ -383,9 +383,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3.2.2.5" data-path="reference.html">
+        <li class="chapter " data-level="1.3.2.2.5" data-path="../crash_aggregates/reference.html">
             
-                <a href="reference.html">
+                <a href="../crash_aggregates/reference.html">
             
                     
                     Crash Aggregate
@@ -435,9 +435,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2.2.9" data-path="../client_count/reference.html">
+        <li class="chapter active" data-level="1.3.2.2.9" data-path="reference.html">
             
-                <a href="../client_count/reference.html">
+                <a href="reference.html">
             
                     
                     Client Count
@@ -790,7 +790,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../../.." >Crash Aggregate</a>
+        <a href="../../.." >Client Count</a>
     </h1>
 </div>
 
@@ -805,16 +805,16 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="crash-aggregates-reference">Crash Aggregates Reference</h1>
+                                <h1 id="client-count-reference">Client Count Reference</h1>
+<p>This document is a work in progress.
+The work is being tracked
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1364175" target="_blank">here</a>.</p>
 <!-- toc -->
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#data-reference">Data Reference</a><ul>
 <li><a href="#example-queries">Example Queries</a></li>
-<li><a href="#sampling">Sampling</a><ul>
-<li><a href="#invalid-pings">Invalid Pings</a></li>
-</ul>
-</li>
+<li><a href="#sampling">Sampling</a></li>
 <li><a href="#scheduling">Scheduling</a></li>
 <li><a href="#schema">Schema</a></li>
 </ul>
@@ -822,114 +822,50 @@
 </ul>
 <!-- toc stop -->
 <h1 id="introduction">Introduction</h1>
-<p>The <code>crash_aggregates</code> dataset compiles crash statistics over various dimensions for each day.</p>
-<h4 id="rows-and-columns">Rows and Columns</h4>
-<p>There&apos;s one column for each of the stratifying dimensions and the crash statistics.
-Each row is a distinct set of dimensions, along with their associated crash stats.
-Example stratifying dimensions include channel and country,
-example statistics include usage hours and plugin crashes.
-See the <a href="https://github.com/mozilla/telemetry-batch-view/blob/master/docs/CrashAggregateView.md" target="_blank">complete documentation</a>
-for all available dimensions
-and statistics.</p>
+<p>The <code>client_count</code> dataset is useful for estimating user counts over a few 
+<a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/ClientCountView.scala#L22" target="_blank">pre-defined dimensions</a>.</p>
+<h4 id="content">Content</h4>
+<p>This dataset includes columns for a dozen factors and an HLL variable.
+The <code>hll</code> column contains a
+<a href="https://en.wikipedia.org/wiki/HyperLogLog" target="_blank">HyperLogLog</a>
+variable, which is an approximation to the exact count.
+The factor columns include activity date and the dimensions listed
+<a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/ClientCountView.scala#L22" target="_blank">here</a>.
+Each row represents one combinations of the factor columns.</p>
+<h4 id="background-and-caveats">Background and Caveats</h4>
+<p>It&apos;s important to understand that the <code>hll</code> column is <strong>not a standard count</strong>.
+The <code>hll</code> variable avoids double-counting users when aggregating over multiple days.
+The HyperLogLog variable is a far more efficient way to count distinct elements of a set,
+but comes with some complexity.
+To find the cardinality of an HLL use <code>cardinality(cast(hll AS HLL))</code>.
+To find the union of two HLL&apos;s over different dates, use <code>merge(cast(hll AS HLL))</code>.
+The <a href="https://sql.telemetry.mozilla.org/queries/81/source#129" target="_blank">Firefox ER Reporting Query</a>
+is a good example to review.
+Finally, Roberto has a relevant writeup
+<a href="https://robertovitillo.com/2016/04/12/measuring-product-engagment-at-scale/" target="_blank">here</a>.</p>
 <h4 id="accessing-the-data">Accessing the Data</h4>
-<p>This dataset is accessible via re:dash.</p>
-<p>The data is stored as a parquet table in S3 at the following address.
-See <a href="../../../cookbooks/parquet.html">this cookbook</a> to get started working with the data in Spark.</p>
-<pre><code>s3://telemetry-parquet/crash_aggregates/v1/
-</code></pre><h4 id="further-reading">Further Reading</h4>
-<p>The technical documentation for this dataset can be found in the
-<a href="https://github.com/mozilla/telemetry-batch-view/blob/master/docs/CrashAggregateView.md" target="_blank">telemetry-batch-view documentation</a></p>
+<p>The data is available in re:dash.
+Take a look at this 
+<a href="https://sql.telemetry.mozilla.org/queries/81/source#129" target="_blank">example query</a>.</p>
+<p>I don&apos;t recommend accessing this data from ATMO.</p>
+<h4 id="further-reading">Further Reading</h4>
 <h1 id="data-reference">Data Reference</h1>
 <h2 id="example-queries">Example Queries</h2>
-<p>Here&apos;s an example query that computes crash rates
-for each channel (sorted by number of usage hours):</p>
-<pre><code class="lang-sql"><span class="hljs-keyword">SELECT</span> dimensions[<span class="hljs-string">&apos;channel&apos;</span>] <span class="hljs-keyword">AS</span> channel,
-       <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> usage_hours,
-       <span class="hljs-number">1000</span> * <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;main_crashes&apos;</span>]) / <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> main_crash_rate,
-       <span class="hljs-number">1000</span> * <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;content_crashes&apos;</span>]) / <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> content_crash_rate,
-       <span class="hljs-number">1000</span> * <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;plugin_crashes&apos;</span>]) / <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> plugin_crash_rate,
-       <span class="hljs-number">1000</span> * <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;gmplugin_crashes&apos;</span>]) / <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> gmplugin_crash_rate,
-       <span class="hljs-number">1000</span> * <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;gpu_crashes&apos;</span>]) / <span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) <span class="hljs-keyword">AS</span> gpu_crash_rate
-<span class="hljs-keyword">FROM</span> crash_aggregates
-<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> dimensions[<span class="hljs-string">&apos;channel&apos;</span>]
-<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> -<span class="hljs-keyword">sum</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>])
-</code></pre>
-<p>Main process crashes by build date and E10S cohort.</p>
-<pre><code class="lang-sql">WITH channel_rates AS (
-  <span class="hljs-keyword">SELECT</span> dimensions[<span class="hljs-string">&apos;build_id&apos;</span>] <span class="hljs-keyword">AS</span> build_id,
-         <span class="hljs-keyword">SUM</span>(stats[<span class="hljs-string">&apos;main_crashes&apos;</span>]) <span class="hljs-keyword">AS</span> main_crashes, <span class="hljs-comment">-- total number of crashes</span>
-         <span class="hljs-keyword">SUM</span>(stats[<span class="hljs-string">&apos;usage_hours&apos;</span>]) / <span class="hljs-number">1000</span> <span class="hljs-keyword">AS</span> usage_kilohours, <span class="hljs-comment">-- thousand hours of usage</span>
-         dimensions[<span class="hljs-string">&apos;e10s_cohort&apos;</span>] <span class="hljs-keyword">AS</span> e10s_cohort <span class="hljs-comment">-- e10s cohort</span>
-   <span class="hljs-keyword">FROM</span> crash_aggregates
-   <span class="hljs-keyword">WHERE</span> dimensions[<span class="hljs-string">&apos;experiment_id&apos;</span>] <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span> <span class="hljs-comment">-- not in an experiment</span>
-     <span class="hljs-keyword">AND</span> <span class="hljs-keyword">regexp_like</span>(dimensions[<span class="hljs-string">&apos;build_id&apos;</span>], <span class="hljs-string">&apos;^\d{14}$&apos;</span>) <span class="hljs-comment">-- validate build IDs</span>
-     <span class="hljs-keyword">AND</span> dimensions[<span class="hljs-string">&apos;build_id&apos;</span>] &gt; <span class="hljs-string">&apos;20160201000000&apos;</span> <span class="hljs-comment">-- only in the date range that we care about</span>
-   <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> dimensions[<span class="hljs-string">&apos;build_id&apos;</span>], dimensions[<span class="hljs-string">&apos;e10s_cohort&apos;</span>]
-)
-<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">cast</span>(parse_datetime(build_id, <span class="hljs-string">&apos;yyyyMMddHHmmss&apos;</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">date</span>) <span class="hljs-keyword">as</span> build_id, <span class="hljs-comment">-- program build date</span>
-       usage_kilohours, <span class="hljs-comment">-- thousands of usage hours</span>
-       e10s_cohort, <span class="hljs-comment">-- e10s cohort</span>
-       main_crashes / usage_kilohours <span class="hljs-keyword">AS</span> main_crash_rate <span class="hljs-comment">-- crash rate being defined as crashes per thousand usage hours</span>
-<span class="hljs-keyword">FROM</span> channel_rates
-<span class="hljs-keyword">WHERE</span> usage_kilohours &gt; <span class="hljs-number">100</span> <span class="hljs-comment">-- only aggregates that have statistically significant usage hours</span>
-<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> build_id <span class="hljs-keyword">ASC</span>
-</code></pre>
+<p>This document is a work in progress.
+The work is being tracked
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1364175" target="_blank">here</a>.</p>
 <h2 id="sampling">Sampling</h2>
-<h3 id="invalid-pings">Invalid Pings</h3>
-<p>We ignore invalid pings in our processing. Invalid pings are defined as those that:</p>
-<ul>
-<li>The submission dates or activity dates are invalid or missing.</li>
-<li>The build ID is malformed.</li>
-<li>The docType field is missing or unknown.</li>
-<li>The ping is a main ping without usage hours or a crash ping with usage hours.</li>
-</ul>
+<p>This document is a work in progress.
+The work is being tracked
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1364175" target="_blank">here</a>.</p>
 <h2 id="scheduling">Scheduling</h2>
-<p>The <code>crash_aggregates</code> job is run daily, at midnight UTC.
-The job is scheduled on <a href="https://github.com/mozilla/telemetry-airflow" target="_blank">Airflow</a>.
-The DAG is <a href="https://github.com/mozilla/telemetry-airflow/blob/master/dags/crash_aggregates.py" target="_blank">here</a></p>
+<p>This document is a work in progress.
+The work is being tracked
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1364175" target="_blank">here</a>.</p>
 <h2 id="schema">Schema</h2>
-<p>The <code>crash_aggregates</code> table has 4 commonly-used columns:</p>
-<ul>
-<li><code>submission_date</code> is the date pings were submitted for a particular aggregate.<ul>
-<li>For example, <code>select sum(stats[&apos;usage_hours&apos;]) from crash_aggregates where submission_date = &apos;2016-03-15&apos;</code> will give the total number of user hours represented by pings submitted on March 15, 2016.</li>
-<li>The dataset is partitioned by this field. Queries that limit the possible values of <code>submission_date</code> can run significantly faster.</li>
-</ul>
-</li>
-<li><code>activity_date</code> is the day when the activity being recorded took place.<ul>
-<li>For example, <code>select sum(stats[&apos;usage_hours&apos;]) from crash_aggregates where activity_date = &apos;2016-03-15&apos;</code> will give the total number of user hours represented by activities that took place on March 15, 2016.</li>
-<li>This can be several days before the pings are actually submitted, so it will always be before or on its corresponding <code>submission_date</code>.</li>
-<li>Therefore, queries that are sensitive to when measurements were taken on the client should prefer this field over <code>submission_date</code>.</li>
-</ul>
-</li>
-<li><code>dimensions</code> is a map of all the other dimensions that we currently care about. These fields include:<ul>
-<li><code>dimensions[&apos;build_version&apos;]</code> is the program version, like <code>46.0a1</code>.</li>
-<li><code>dimensions[&apos;build_id&apos;]</code> is the YYYYMMDDhhmmss timestamp the program was built, like <code>20160123180541</code>. This is also known as the &quot;build ID&quot; or &quot;buildid&quot;.</li>
-<li><code>dimensions[&apos;channel&apos;]</code> is the channel, like <code>release</code> or <code>beta</code>.</li>
-<li><code>dimensions[&apos;application&apos;]</code> is the program name, like <code>Firefox</code> or <code>Fennec</code>.</li>
-<li><code>dimensions[&apos;os_name&apos;]</code> is the name of the OS the program is running on, like <code>Darwin</code> or <code>Windows_NT</code>.</li>
-<li><code>dimensions[&apos;os_version&apos;]</code> is the version of the OS the program is running on.</li>
-<li><code>dimensions[&apos;architecture&apos;]</code> is the architecture that the program was built for (not necessarily the one it is running on).</li>
-<li><code>dimensions[&apos;country&apos;]</code> is the country code for the user (determined using geoIP), like <code>US</code> or <code>UK</code>.</li>
-<li><code>dimensions[&apos;experiment_id&apos;]</code> is the identifier of the experiment being participated in, such as <code>e10s-beta46-noapz@experiments.mozilla.org</code>, or null if no experiment.</li>
-<li><code>dimensions[&apos;experiment_branch&apos;]</code> is the branch of the experiment being participated in, such as <code>control</code> or <code>experiment</code>, or null if no experiment.</li>
-<li><code>dimensions[&apos;e10s_enabled&apos;]</code> is whether E10S is enabled.</li>
-<li><code>dimensions[&apos;e10s_cohort&apos;]</code> is the E10S cohort the user is part of, such as <code>control</code>, <code>test</code>, or <code>disqualified</code>.</li>
-<li><code>dimensions[&apos;gfx_compositor&apos;]</code> is the graphics backend compositor used by the program, such as <code>d3d11</code>, <code>opengl</code> and <code>simple</code>. Null values may be reported as <code>none</code> as well.</li>
-<li>All of the above fields can potentially be blank, which means &quot;not present&quot;. That means that in the actual pings, the corresponding fields were null.</li>
-</ul>
-</li>
-<li><code>stats</code> contains the aggregate values that we care about:<ul>
-<li><code>stats[&apos;usage_hours&apos;]</code> is the number of user-hours represented by the aggregate.</li>
-<li><code>stats[&apos;main_crashes&apos;]</code> is the number of main process crashes represented by the aggregate (or just program crashes, in the non-E10S case).</li>
-<li><code>stats[&apos;content_crashes&apos;]</code> is the number of content process crashes represented by the aggregate.</li>
-<li><code>stats[&apos;plugin_crashes&apos;]</code> is the number of plugin process crashes represented by the aggregate.</li>
-<li><code>stats[&apos;gmplugin_crashes&apos;]</code> is the number of Gecko media plugin (often abbreviated GMPlugin) process crashes represented by the aggregate.</li>
-<li><code>stats[&apos;content_shutdown_crashes&apos;]</code> is the number of content process crashes that were caused by failure to shut down in a timely manner.</li>
-<li><code>stats[&apos;gpu_crashes&apos;]</code> is the number of gpu process crashes represented by the aggregate.</li>
-</ul>
-</li>
-</ul>
-<p>TODO(harter): <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1361862" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=1361862</a></p>
+<p>This document is a work in progress.
+The work is being tracked
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1364175" target="_blank">here</a>.</p>
 
                                 
                                 </section>
@@ -957,12 +893,12 @@ The DAG is <a href="https://github.com/mozilla/telemetry-airflow/blob/master/dag
 
             
                 
-                <a href="../crash_summary/reference.html" class="navigation navigation-prev " aria-label="Previous page: Crash Summary">
+                <a href="../addons/reference.html" class="navigation navigation-prev " aria-label="Previous page: Addons">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../events/reference.html" class="navigation navigation-next " aria-label="Next page: Events">
+                <a href="../../../tools/experiments.html" class="navigation navigation-next " aria-label="Next page: Experimental Datasets">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -973,7 +909,7 @@ The DAG is <a href="https://github.com/mozilla/telemetry-airflow/blob/master/dag
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Crash Aggregate","level":"1.3.2.2.5","depth":4,"next":{"title":"Events","level":"1.3.2.2.6","depth":4,"path":"datasets/batch_view/events/reference.md","ref":"datasets/batch_view/events/reference.md","articles":[]},"previous":{"title":"Crash Summary","level":"1.3.2.2.4","depth":4,"path":"datasets/batch_view/crash_summary/reference.md","ref":"datasets/batch_view/crash_summary/reference.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"datasets/batch_view/crash_aggregates/reference.md","mtime":"2017-05-11T18:59:45.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-11T21:50:11.042Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Client Count","level":"1.3.2.2.9","depth":4,"next":{"title":"Experimental Datasets","level":"1.3.2.3","depth":3,"path":"tools/experiments.md","ref":"tools/experiments.md","articles":[{"title":"Accessing Shield Study data","level":"1.3.2.3.1","depth":4,"path":"datasets/shield.md","ref":"datasets/shield.md","articles":[]}]},"previous":{"title":"Addons","level":"1.3.2.2.8","depth":4,"path":"datasets/batch_view/addons/reference.md","ref":"datasets/batch_view/addons/reference.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"datasets/batch_view/client_count/reference.md","mtime":"2017-05-11T18:44:59.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-05-11T21:50:11.042Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
