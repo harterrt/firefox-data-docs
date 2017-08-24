@@ -179,7 +179,7 @@
                 <a href="../tools/stmo.html">
             
                     
-                    Intro to STMO / Re:dash
+                    Intro to STMO
             
                 </a>
             
@@ -448,6 +448,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.3.3.2.10" data-path="../datasets/batch_view/new_profile/reference.html">
+            
+                <a href="../datasets/batch_view/new_profile/reference.html">
+            
+                    
+                    New Profile
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -541,7 +554,7 @@
                 <a href="analysis_intro.html">
             
                     
-                    TMO & STMO
+                    Analysis Intro / TMO
             
                 </a>
             
@@ -607,6 +620,19 @@
             
                     
                     RTMO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.7" data-path="../tools/alerts.html">
+            
+                <a href="../tools/alerts.html">
+            
+                    
+                    Alerts
             
                 </a>
             
@@ -716,7 +742,20 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.1" >
+        <li class="chapter " data-level="2.1.1" data-path="../meta/contributing.html">
+            
+                <a href="../meta/contributing.html">
+            
+                    
+                    Contributing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" >
             
                 <a target="_blank" href="https://bugzilla.mozilla.org/enter_bug.cgi?assigned_to=nobody%40mozilla.org&bug_file_loc=http%3A%2F%2F&bug_ignored=0&bug_severity=normal&bug_status=NEW&cf_fx_iteration=---&cf_fx_points=---&component=Documentation%20and%20Knowledge%20Repo%20%28RTMO%29&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&defined_groups=1&flag_type-4=X&flag_type-607=X&flag_type-800=X&flag_type-803=X&flag_type-916=X&form_name=enter_bug&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=Linux&priority=P3&product=Data%20Platform%20and%20Tools&rep_platform=x86_64&target_milestone=---&version=unspecified">
             
@@ -729,25 +768,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2" data-path="../meta/structure.html">
+        <li class="chapter " data-level="2.1.3" data-path="../meta/structure.html">
             
                 <a href="../meta/structure.html">
             
                     
                     Structure
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.3" data-path="../meta/contributing.html">
-            
-                <a href="../meta/contributing.html">
-            
-                    
-                    Contributing
             
                 </a>
             
@@ -829,6 +855,7 @@ take a look at our <a href="../tools/experiments.html">tools for experimentation
 <li><a href="#crashsummary">crash_summary</a></li>
 </ul>
 </li>
+<li><a href="#new-profile-derived-datasets">New-Profile Derived Datasets</a></li>
 <li><a href="#appendix">Appendix</a><ul>
 <li><a href="#mobile-metrics">Mobile Metrics</a></li>
 </ul>
@@ -860,7 +887,7 @@ Try to limit the size of your data by controlling the date range, etc.</p>
 <h4 id="accessing-the-data">Accessing the Data</h4>
 <p>You can access raw ping data from an 
 <a href="https://analysis.telemetry.mozilla.org/" target="_blank">ATMO cluster</a> using the 
-<a href="http://python-moztelemetry.readthedocs.io/en/stable/userguide.html#module-moztelemetry.dataset" target="_blank">Dataset API</a>.
+<a href="https://python-moztelemetry.readthedocs.io/en/stable/api.html#module-moztelemetry.dataset" target="_blank">Dataset API</a>.
 Raw ping data are not available in <a href="https://sql.telemetry.mozilla.org/" target="_blank">re:dash</a>.</p>
 <h4 id="further-reading">Further Reading</h4>
 <p>You can find <a href="http://gecko.readthedocs.io/en/latest/toolkit/components/telemetry/telemetry/data/index.html" target="_blank">the complete ping documentation</a>.
@@ -1063,6 +1090,22 @@ Here&apos;s an <a href="https://sql.telemetry.mozilla.org/queries/4793/source" t
 <a href="https://github.com/mozilla/telemetry-batch-view/blob/master/docs/CrashSummary.md" target="_blank">telemetry-batch-view documentation</a>.</p>
 <p>The code responsible for generating this dataset is
 <a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/CrashSummaryView.scala" target="_blank">here</a></p>
+<h1 id="new-profile-derived-datasets">New-Profile Derived Datasets</h1>
+<p>The <a href="http://gecko.readthedocs.io/en/latest/toolkit/components/telemetry/telemetry/data/new-profile-ping.html" target="_blank">new-profile ping</a>
+is sent from Firefox Desktop on the first session of a newly created profile and contains the initial
+information about the user environment.</p>
+<p>This data is available in the <strong>telemetry_new_profile_parquet</strong> dataset.</p>
+<p>The <code>telemetry_new_profile_parquet</code> table is the most direct representation of a new-profile ping.</p>
+<h4 id="contents">Contents</h4>
+<p>The table contains one row for each ping. Each column represents one field from the new-profile ping payload, though only a subset of all fields are included.</p>
+<h4 id="accessing-the-data">Accessing the Data</h4>
+<p>The data is stored as a parquet table in S3 at the following address.
+See <a href="../cookbooks/parquet.html">this cookbook</a> to get started working with the data in Spark.</p>
+<pre><code>s3://net-mozaws-prod-us-west-2-pipeline-data/telemetry-new-profile-parquet/v1/
+</code></pre><p>The <code>telemetry_new_profile_parquet</code> is accessible through re:dash.
+Here&apos;s an <a href="https://sql.telemetry.mozilla.org/queries/5888#table" target="_blank">example query</a>.</p>
+<h4 id="further-reading">Further Reading</h4>
+<p>This dataset is generated automatically using direct to parquet. The configuration responsible for generating this dataset was introdueced in <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1360256" target="_blank">bug 1360256</a>.</p>
 <h1 id="appendix">Appendix</h1>
 <h2 id="mobile-metrics">Mobile Metrics</h2>
 <p>There are several tables owned by the mobile team documented
@@ -1105,7 +1148,7 @@ Here&apos;s an <a href="https://sql.telemetry.mozilla.org/queries/4793/source" t
                 </a>
                 
                 
-                <a href="../tools/stmo.html" class="navigation navigation-next " aria-label="Next page: Intro to STMO / Re:dash">
+                <a href="../tools/stmo.html" class="navigation navigation-next " aria-label="Next page: Intro to STMO">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1116,7 +1159,7 @@ Here&apos;s an <a href="https://sql.telemetry.mozilla.org/queries/4793/source" t
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Choosing a Dataset","level":"1.2.3","depth":2,"next":{"title":"Intro to STMO / Re:dash","level":"1.2.4","depth":2,"path":"tools/stmo.md","ref":"tools/stmo.md","articles":[]},"previous":{"title":"Data Privacy","level":"1.2.2","depth":2,"path":"concepts/data_privacy.md","ref":"concepts/data_privacy.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc"],"pluginsConfig":{"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"concepts/choosing_a_dataset.md","mtime":"2017-06-15T16:03:54.000Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-06-16T16:12:10.664Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Choosing a Dataset","level":"1.2.3","depth":2,"next":{"title":"Intro to STMO","level":"1.2.4","depth":2,"path":"tools/stmo.md","ref":"tools/stmo.md","articles":[]},"previous":{"title":"Data Privacy","level":"1.2.2","depth":2,"path":"concepts/data_privacy.md","ref":"concepts/data_privacy.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc","ga"],"pluginsConfig":{"ga":{"configuration":"auto","token":"UA-104326577-1"},"toc":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"concepts/choosing_a_dataset.md","mtime":"2017-07-26T15:49:53.886Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-24T21:23:08.599Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -1124,6 +1167,10 @@ Here&apos;s an <a href="https://sql.telemetry.mozilla.org/queries/4793/source" t
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
