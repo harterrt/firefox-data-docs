@@ -1,0 +1,1174 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Sending a Custom Ping · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="hll_zeppelin.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Firefox Data Documentation
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1.1" data-path="../concepts/terminology.html">
+            
+                <a href="../concepts/terminology.html">
+            
+                    
+                    Terminology
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../concepts/getting_started.html">
+            
+                <a href="../concepts/getting_started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../concepts/analysis_intro.html">
+            
+                <a href="../concepts/analysis_intro.html">
+            
+                    
+                    Analysis Quick Start
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../concepts/data_privacy.html">
+            
+                <a href="../concepts/data_privacy.html">
+            
+                    
+                    Data Privacy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../concepts/choosing_a_dataset.html">
+            
+                <a href="../concepts/choosing_a_dataset.html">
+            
+                    
+                    Choosing a Dataset
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../tools/stmo.html">
+            
+                <a href="../tools/stmo.html">
+            
+                    
+                    Intro to STMO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../concepts/analysis_gotchas.html">
+            
+                <a href="../concepts/analysis_gotchas.html">
+            
+                    
+                    Common Analysis Gotchas
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../concepts/review.html">
+            
+                <a href="../concepts/review.html">
+            
+                    
+                    Getting Review
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../datasets/">
+            
+                <a href="../datasets/">
+            
+                    
+                    Data Collection and Datasets
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" >
+            
+                <span>
+            
+                    
+                    Understanding our Data
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../concepts/choosing_a_dataset.html">
+            
+                <a href="../concepts/choosing_a_dataset.html">
+            
+                    
+                    Choosing a dataset
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../concepts/analysis_gotchas.html">
+            
+                <a href="../concepts/analysis_gotchas.html">
+            
+                    
+                    Common Analysis Gotchas
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../datasets/new_data.html">
+            
+                <a href="../datasets/new_data.html">
+            
+                    
+                    Collecting New Data
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../datasets/reference.html">
+            
+                <a href="../datasets/reference.html">
+            
+                    
+                    Dataset Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../datasets/pings.html">
+            
+                <a href="../datasets/pings.html">
+            
+                    
+                    Pings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../datasets/derived.html">
+            
+                <a href="../datasets/derived.html">
+            
+                    
+                    Derived Datasets
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.2.1" data-path="../datasets/batch_view/longitudinal/reference.html">
+            
+                <a href="../datasets/batch_view/longitudinal/reference.html">
+            
+                    
+                    Longitudinal
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.2" data-path="../datasets/batch_view/cross_sectional/reference.html">
+            
+                <a href="../datasets/batch_view/cross_sectional/reference.html">
+            
+                    
+                    Cross Sectional
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.3" data-path="../datasets/batch_view/main_summary/reference.html">
+            
+                <a href="../datasets/batch_view/main_summary/reference.html">
+            
+                    
+                    Main Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.4" data-path="../datasets/batch_view/crash_summary/reference.html">
+            
+                <a href="../datasets/batch_view/crash_summary/reference.html">
+            
+                    
+                    Crash Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.5" data-path="../datasets/batch_view/crash_aggregates/reference.html">
+            
+                <a href="../datasets/batch_view/crash_aggregates/reference.html">
+            
+                    
+                    Crash Aggregate
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.6" data-path="../datasets/batch_view/events/reference.html">
+            
+                <a href="../datasets/batch_view/events/reference.html">
+            
+                    
+                    Events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.7" data-path="../datasets/batch_view/sync_summary/reference.html">
+            
+                <a href="../datasets/batch_view/sync_summary/reference.html">
+            
+                    
+                    Sync Summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.8" data-path="../datasets/batch_view/addons/reference.html">
+            
+                <a href="../datasets/batch_view/addons/reference.html">
+            
+                    
+                    Addons
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.9" data-path="../datasets/batch_view/client_count/reference.html">
+            
+                <a href="../datasets/batch_view/client_count/reference.html">
+            
+                    
+                    Client Count
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.10" data-path="../datasets/mozetl/churn/reference.html">
+            
+                <a href="../datasets/mozetl/churn/reference.html">
+            
+                    
+                    Churn
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.11" data-path="../datasets/batch_view/retention/reference.html">
+            
+                <a href="../datasets/batch_view/retention/reference.html">
+            
+                    
+                    Retention
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.12" data-path="../datasets/mozetl/clients_daily/reference.html">
+            
+                <a href="../datasets/mozetl/clients_daily/reference.html">
+            
+                    
+                    Clients Daily
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.13" data-path="../datasets/batch_view/new_profile/reference.html">
+            
+                <a href="../datasets/batch_view/new_profile/reference.html">
+            
+                    
+                    New Profile
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.14" data-path="../datasets/batch_view/update/reference.html">
+            
+                <a href="../datasets/batch_view/update/reference.html">
+            
+                    
+                    Update
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.15" data-path="../datasets/batch_view/heavy_users/reference.html">
+            
+                <a href="../datasets/batch_view/heavy_users/reference.html">
+            
+                    
+                    Heavy Users
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2.16" data-path="../datasets/other/ssl/reference.html">
+            
+                <a href="../datasets/other/ssl/reference.html">
+            
+                    
+                    SSL Ratios (public)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../tools/experiments.html">
+            
+                <a href="../tools/experiments.html">
+            
+                    
+                    Experimental Datasets
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.3.1" data-path="../datasets/shield.html">
+            
+                <a href="../datasets/shield.html">
+            
+                    
+                    Accessing Shield Study data
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.4" data-path="../datasets/search.html">
+            
+                <a href="../datasets/search.html">
+            
+                    
+                    Search Datasets
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.4.1" data-path="../datasets/mozetl/search_aggregates/reference.html">
+            
+                <a href="../datasets/mozetl/search_aggregates/reference.html">
+            
+                    
+                    Search Aggregates
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.4.2" data-path="../datasets/mozetl/search_clients_daily/reference.html">
+            
+                <a href="../datasets/mozetl/search_clients_daily/reference.html">
+            
+                    
+                    Search Clients Daily
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../tools/">
+            
+                <a href="../tools/">
+            
+                    
+                    Tools
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../concepts/data_pipeline.html">
+            
+                <a href="../concepts/data_pipeline.html">
+            
+                    
+                    Overview of Mozilla's Data Pipeline
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../tools/interfaces.html">
+            
+                <a href="../tools/interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="../concepts/analysis_intro.html">
+            
+                <a href="../concepts/analysis_intro.html">
+            
+                    
+                    Analysis Intro / TMO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.2" data-path="../tools/spark.html">
+            
+                <a href="../tools/spark.html">
+            
+                    
+                    Custom analysis with Spark
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.3" data-path="realtime_analysis_plugin.html">
+            
+                <a href="realtime_analysis_plugin.html">
+            
+                    
+                    Creating a Real-time Analysis Plugin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.4" data-path="../tools/distribution_viewer.html">
+            
+                <a href="../tools/distribution_viewer.html">
+            
+                    
+                    Distribution Viewer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.5" data-path="../tools/rtmo.html">
+            
+                <a href="../tools/rtmo.html">
+            
+                    
+                    RTMO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.6" data-path="../tools/alerts.html">
+            
+                <a href="../tools/alerts.html">
+            
+                    
+                    Alerts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../tools/projects.html">
+            
+                <a href="../tools/projects.html">
+            
+                    
+                    Project Glossary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Cookbooks
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="parquet.html">
+            
+                <a href="parquet.html">
+            
+                    
+                    Working with Parquet Data on ATMO Clusters
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="create_a_dataset.html">
+            
+                <a href="create_a_dataset.html">
+            
+                    
+                    Creating a custom re:dash dataset
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="realtime_analysis_plugin.html">
+            
+                <a href="realtime_analysis_plugin.html">
+            
+                    
+                    Creating a Real-time Analysis Plugin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="longitudinal_examples.html">
+            
+                <a href="longitudinal_examples.html">
+            
+                    
+                    Longitudinal Examples
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="hll_zeppelin.html">
+            
+                <a href="hll_zeppelin.html">
+            
+                    
+                    Using HyperLogLog in Zeppelin
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.5.6" data-path="new_ping.html">
+            
+                <a href="new_ping.html">
+            
+                    
+                    Sending a Custom Ping
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" >
+            
+                <span>
+            
+                    
+                    About this Documentation
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../meta/contributing.html">
+            
+                <a href="../meta/contributing.html">
+            
+                    
+                    Contributing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" >
+            
+                <a target="_blank" href="https://bugzilla.mozilla.org/enter_bug.cgi?assigned_to=nobody%40mozilla.org&bug_file_loc=http%3A%2F%2F&bug_ignored=0&bug_severity=normal&bug_status=NEW&cf_fx_iteration=---&cf_fx_points=---&component=Documentation%20and%20Knowledge%20Repo%20%28RTMO%29&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&defined_groups=1&flag_type-4=X&flag_type-607=X&flag_type-800=X&flag_type-803=X&flag_type-916=X&form_name=enter_bug&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=Linux&priority=--&product=Data%20Platform%20and%20Tools&rep_platform=x86_64&target_milestone=---&version=unspecified">
+            
+                    
+                    Bug Template
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.3" data-path="../meta/structure.html">
+            
+                <a href="../meta/structure.html">
+            
+                    
+                    Structure
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Sending a Custom Ping</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>Got some new data you want to send to us? How in the world do you send a new ping? Follow this guide
+to find out.</p>
+<h2 id="write-your-questions"><a name="write-your-questions" class="plugin-anchor" href="#write-your-questions"><i class="fa fa-link" aria-hidden="true"></i></a>Write Your Questions</h2>
+<p>Do not try and implement new pings unless you know specifically what questions you&apos;re trying to
+answer. General questions about &quot;How do users use our product?&quot; won&apos;t cut it - these need to be
+specific, concrete asks that can be translated to data points. This will also make it easier down
+the line as you start data review.</p>
+<h2 id="create-a-schema"><a name="create-a-schema" class="plugin-anchor" href="#create-a-schema"><i class="fa fa-link" aria-hidden="true"></i></a>Create a Schema</h2>
+<p>Use JSON Schema to start with. See the examples schemas in the
+<a href="https://github.com/mozilla-services/mozilla-pipeline-schemas/" target="_blank">Mozilla Pipeline Schemas repo</a>.
+This schema is just used to validate the incoming data; any ping that doesn&apos;t match the schema
+will be removed. Validate your JSON Schema using a
+<a href="https://jsonschemalint.com/#/version/draft-04/markup/json" target="_blank">validation tool</a>.</p>
+<p>We already have automatic deduping based on docId, which catches about 90% of duplicates and removes
+them from the dataset.</p>
+<h2 id="start-a-data-review"><a name="start-a-data-review" class="plugin-anchor" href="#start-a-data-review"><i class="fa fa-link" aria-hidden="true"></i></a>Start a Data Review</h2>
+<p>Data review for new pings is more complicated than when adding new probes. See
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1347266" target="_blank">Data Review for Focus-Event Ping</a>
+as an example. Consider where the data falls in the
+<a href="https://wiki.mozilla.org/Firefox/Data_Collection" target="_blank">Data Collection Categories</a>.</p>
+<h2 id="submit-schema-to-mozilla-servicesmozilla-pipeline-schemas"><a name="submit-schema-to-mozilla-servicesmozilla-pipeline-schemas" class="plugin-anchor" href="#submit-schema-to-mozilla-servicesmozilla-pipeline-schemas"><i class="fa fa-link" aria-hidden="true"></i></a>Submit Schema to mozilla-services/mozilla-pipeline-schemas</h2>
+<p>The first schema added should be the JSON Schema made in step 2.
+Add at least one example ping which the data can be validated against.
+These test pings will be validated automatically during the build.</p>
+<p>Additionally,
+a <a href="https://github.com/mozilla-services/mozilla-pipeline-schemas/blob/master/schemas/telemetry/core/core.9.parquetmr.txt" target="_blank">Parquet output</a>
+schema should be added. This would add a new dataset, available in <a href="https://sql.telemetry.mozilla.org" target="_blank">Re:dash</a>.
+The best documentation we have for the Parquet schema is by looking at the examples in
+<a href="https://github.com/mozilla-services/mozilla-pipeline-schemas" target="_blank">mozilla-pipeline-schemas</a>.</p>
+<p>Parquet output also has a <code>metadata</code> section. These are fields added to the ping at ingestion time;
+they might come from the URL submitted to the edge server, or the IP Address used to make the request.
+<a href="https://hsadmin.trink.com/dashboard_output/analysis.trink.telemetry_schema.parquet.txt" target="_blank">This document</a>
+lists available metadata fields for all pings.</p>
+<p>The stream you&apos;re interested in is probably <code>telemetry</code>.
+For example, look at <code>system-addon-deployment-diagnostics</code> immediately under the <code>telemetry</code> top-level
+field. The <code>schema</code> element has top-level fields (e.g. <code>Timestamp</code>, <code>Type</code>), as well as more fields
+under the <code>Fields</code> element. Any of these can be used in the <code>metadata</code> section of your parquet schema,
+except for <code>submission</code>.</p>
+<p>Some common ones might be:</p>
+<ul>
+<li>Date</li>
+<li>submissionDate</li>
+<li>geoCountry</li>
+<li>geoCity</li>
+<li>normalizedChannel</li>
+<li>appVersion</li>
+<li>appBuildId</li>
+</ul>
+<p><em>Important Note</em>: Schema evolution of nested structs is currently broken, so you will not be able to add
+any fields in the future to your <code>metadata</code> section. We recommend adding any that may seem useful.</p>
+<h3 id="testing-the-schema"><a name="testing-the-schema" class="plugin-anchor" href="#testing-the-schema"><i class="fa fa-link" aria-hidden="true"></i></a>Testing The Schema</h3>
+<p>Note that this only works if data is <em>already</em> being sent, and you want to test the schema you&apos;re
+writing on the data that is currently being ingested.</p>
+<p>Test your Parquet output in <a href="https://pipeline-cep.prod.mozaws.net/" target="_blank">Hindsight</a> by using
+an output plugin. See <a href="https://bugzilla.mozilla.org/attachment.cgi?id=8829626" target="_blank">Core ping output plugin</a>
+for an example, where the parquet schema is specified as <code>parquet_schema</code>. If no errors
+arise, that means it should be correct. The &quot;Deploy&quot; button should not be used to actually
+deploy, that will be done by operations in the next step.</p>
+<h2 id="deploy-the-plugin"><a name="deploy-the-plugin" class="plugin-anchor" href="#deploy-the-plugin"><i class="fa fa-link" aria-hidden="true"></i></a>Deploy the Plugin</h2>
+<p>File <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1333203" target="_blank">a bug to deploy the new schema.</a></p>
+<p>Real-time analysis will be key to ensuring your data is being processed and parsed correctly.
+It should follow the format specified in
+<a href="https://mozilla-services.github.io/lua_sandbox_extensions/moz_telemetry/sandboxes/heka/analysis/moz_telemetry_doctype_monitor.html" target="_blank">Moztelemetry doctype monitor</a>.
+This allows you to check validation errors, size changes, duplicates, and more. Once you have
+the numbers set, file a
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1356380" target="_blank">bug to let ops deploy it</a></p>
+<h2 id="telemetry-specific-register-doctype"><a name="telemetry-specific-register-doctype" class="plugin-anchor" href="#telemetry-specific-register-doctype"><i class="fa fa-link" aria-hidden="true"></i></a>(Telemetry-Specific) Register Doctype</h2>
+<p>Data Platform Operations takes care of this. It will then be available to query more easily using
+the Dataset API. To do so, make a bug like
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1292493" target="_blank">Bug 1292493</a>.</p>
+<h2 id="non-telemetry-add-ping-name-to-sourcesjson"><a name="non-telemetry-add-ping-name-to-sourcesjson" class="plugin-anchor" href="#non-telemetry-add-ping-name-to-sourcesjson"><i class="fa fa-link" aria-hidden="true"></i></a>(Non-Telemetry) Add ping name to sources.json</h2>
+<p>This will make it available with the <a href="http://python-moztelemetry.readthedocs.io/en/stable/api.html#dataset" target="_blank">Dataset API</a> (used with pyspark on ATMO machines).
+There also needs to be a schema for the layout of the heka files in
+net-mozaws-prod-us-west-2-pipeline-metadata/<ping-name>/schema.json, where <ping-name> is located in source.json. If you want to do this, talk to
+:whd or :mreid.</ping-name></ping-name></p>
+<h2 id="start-sending-data"><a name="start-sending-data" class="plugin-anchor" href="#start-sending-data"><i class="fa fa-link" aria-hidden="true"></i></a>Start Sending Data</h2>
+<p>If you&apos;re using the Telemetry APIs, use those built-in. These can be with the
+<a href="https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/collection/custom-pings.html" target="_blank">Gecko Telemetry APIs</a>,
+the <a href="https://github.com/mozilla-mobile/telemetry-android" target="_blank">Android Telemetry APIs</a>, or the
+<a href="https://github.com/mozilla-mobile/telemetry-ios" target="_blank">iOS Telemetry APIs</a>. Otherwise, see
+<a href="https://wiki.mozilla.org/CloudServices/DataPipeline/HTTPEdgeServerSpecification" target="_blank">here for the endpoint and expected format</a>.</p>
+<p>Work is happening to make a 
+<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1363160" target="_blank">generic endpoint</a>.
+These pings can be easily registered and sent to our servers and will
+be automatically available in Re:dash. Please check back later for those docs.</p>
+<h2 id="write-etl-jobs"><a name="write-etl-jobs" class="plugin-anchor" href="#write-etl-jobs"><i class="fa fa-link" aria-hidden="true"></i></a>Write ETL Jobs</h2>
+<p>We have some basic generalized ETL jobs you can use to transform your data on a batch basis - for example,
+a <a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/GenericLongitudinal.scala" target="_blank">Longitudinal</a>
+or <a href="https://github.com/mozilla/telemetry-batch-view/blob/master/src/main/scala/com/mozilla/telemetry/views/GenericCountView.scala" target="_blank">client-count</a>
+like dataset. Otherwise, you&apos;ll have to write your own.</p>
+<p>You can schedule it on <a href="http://workflow.telemetry.mozilla.org/" target="_blank">Airflow</a>, or you can
+run it as a job in ATMO. If the output is parquet, you can add it to the Hive metastore to have it
+available in re:dash. Check the docs on <a href="create_a_dataset.html">creating your own datasets</a>.</p>
+<h2 id="build-dashboards-using-atmo-or-stmo"><a name="build-dashboards-using-atmo-or-stmo" class="plugin-anchor" href="#build-dashboards-using-atmo-or-stmo"><i class="fa fa-link" aria-hidden="true"></i></a>Build Dashboards Using ATMO or STMO</h2>
+<p>Last steps! What are you using this data for anyways?</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="hll_zeppelin.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Using HyperLogLog in Zeppelin">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Sending a Custom Ping","level":"1.5.6","depth":2,"next":{"title":"About this Documentation","level":"2.1","depth":1,"ref":"","articles":[{"title":"Contributing","level":"2.1.1","depth":2,"path":"meta/contributing.md","ref":"meta/contributing.md","articles":[]},{"title":"Bug Template","level":"2.1.2","depth":2,"url":"https://bugzilla.mozilla.org/enter_bug.cgi?assigned_to=nobody%40mozilla.org&bug_file_loc=http%3A%2F%2F&bug_ignored=0&bug_severity=normal&bug_status=NEW&cf_fx_iteration=---&cf_fx_points=---&component=Documentation%20and%20Knowledge%20Repo%20%28RTMO%29&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&defined_groups=1&flag_type-4=X&flag_type-607=X&flag_type-800=X&flag_type-803=X&flag_type-916=X&form_name=enter_bug&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=Linux&priority=--&product=Data%20Platform%20and%20Tools&rep_platform=x86_64&target_milestone=---&version=unspecified","ref":"https://bugzilla.mozilla.org/enter_bug.cgi?assigned_to=nobody%40mozilla.org&bug_file_loc=http%3A%2F%2F&bug_ignored=0&bug_severity=normal&bug_status=NEW&cf_fx_iteration=---&cf_fx_points=---&component=Documentation%20and%20Knowledge%20Repo%20%28RTMO%29&contenttypemethod=autodetect&contenttypeselection=text%2Fplain&defined_groups=1&flag_type-4=X&flag_type-607=X&flag_type-800=X&flag_type-803=X&flag_type-916=X&form_name=enter_bug&maketemplate=Remember%20values%20as%20bookmarkable%20template&op_sys=Linux&priority=--&product=Data%20Platform%20and%20Tools&rep_platform=x86_64&target_milestone=---&version=unspecified","articles":[]},{"title":"Structure","level":"2.1.3","depth":2,"path":"meta/structure.md","ref":"meta/structure.md","articles":[]}]},"previous":{"title":"Using HyperLogLog in Zeppelin","level":"1.5.5","depth":2,"path":"cookbooks/hll_zeppelin.md","ref":"cookbooks/hll_zeppelin.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["toc","anchors","ga","mermaid-gb3"],"pluginsConfig":{"toc":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"mermaid-gb3":{},"ga":{"configuration":"auto","token":"UA-104326577-1"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"structure":{"langs":"LANGS.md","readme":"introduction.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"cookbooks/new_ping.md","mtime":"2018-02-13T00:36:25.432Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-02-15T20:39:36.792Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-ga/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script src="../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
+
+    </body>
+</html>
+
