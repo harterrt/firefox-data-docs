@@ -14,7 +14,7 @@ pass while avoiding the problem of double counting. This data-structure has the
 benefit of being compact and performant in the context of retention analysis,
 at the expense of precision. For example, calculating a 7-day retention period
 can be obtained by aggregating over a week of retention data using the union
-operation. With SQL primitive, this requires a recomputation of COUNT DISTINCT
+operation. With SQL primitive, this requires a recalculation of COUNT DISTINCT
 over `client_id`'s in the 7-day window.
 
 #### Background and Caveats
@@ -24,7 +24,7 @@ over `client_id`'s in the 7-day window.
 not a consistent view into the behavior of first session profiles until the
 [`new_profile` ping][new_profile]. This means much of the data is inaccurate
 before 2017-06-26.
-2. This dataset uses 4-day reporting latency to aggregate at least 99% of the
+2. This dataset uses 4 day reporting latency to aggregate at least 99% of the
    data in a given submission date. This figure is derived from the
 [telemetry-health measurements on submission latency][telemetry-health], with
 the discussion in [Bug 1407410][bug_1407410]. This latency metric was reduced
@@ -39,7 +39,7 @@ more details.
 
 #### Accessing the Data
 
-The data is primarily available through [Redash on STMO][stmo] via
+The data is primarily available through [Re:dash on STMO][stmo] via
 the Presto source. This service has been configured to use predefined HLL
 functions.
 
@@ -69,7 +69,7 @@ The HyperLogLog library wrappers are available for use outside of the
 configured STMO environment, [`spark-hyperloglog`][s-hll] and
 [`presto-hyperloglog`][p-hll].
 
-Also see the [`client_count` dataset][client_count].
+Also see the [`client_count_daily` dataset][client_count_daily].
 
 
 [original_bug]: https://bugzilla.mozilla.org/show_bug.cgi?id=1381840
@@ -81,5 +81,5 @@ Also see the [`client_count` dataset][client_count].
 [stmo]: sql.telemetry.mozilla.org
 [s-hll]: https://github.com/mozilla/spark-hyperloglog
 [p-hll]: https://github.com/vitillo/presto-hyperloglog
-[client_count]: ../client_count/reference.md
+[client_count_daily]: ../client_count_daily/reference.md
 
